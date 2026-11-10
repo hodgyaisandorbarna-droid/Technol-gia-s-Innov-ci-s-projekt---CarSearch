@@ -1,0 +1,31 @@
+// Példakatalógus: modellgenerációnként egy sor.
+// Az árak (arTip, EUR) tipikus nyugat-európai hirdetési árak, BECSÜLT értékek –
+// valódi működés előtt hirdetésekből kell pontosítani, és negyedévente frissíteni.
+//
+// meret:      kicsi | kozepes | nagy | het   (het = 7 üléses)
+// varosi:     városban jól használható (kis méret, jó fogyasztás városban)
+// hosszuUt:   autópályán, hosszú úton kényelmes
+// kategoria:  praktikus | premium | luxus
+// karakter:   sportos | kenyelmes | technika | biztonsag  (több is lehet)
+// fenntartas: 1 = €, 2 = €€, 3 = €€€
+// kep:        fájlnév a public/img mappában, null esetén karosszéria-sziluett
+
+export const CATALOG = [
+  { id: 'toyota-yaris-3', marka: 'Toyota', modell: 'Yaris', generacio: 'III (XP130)', karosszeria: 'ferdehatu', evjarat: '2017–2020', arTip: 11500, uzemanyag: 'hibrid', ulesek: 5, meret: 'kicsi', varosi: true, hosszuUt: false, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'skoda-fabia-3', marka: 'Škoda', modell: 'Fabia', generacio: 'III', karosszeria: 'ferdehatu', evjarat: '2015–2021', arTip: 8500, uzemanyag: 'benzin', ulesek: 5, meret: 'kicsi', varosi: true, hosszuUt: false, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'vw-golf-7', marka: 'Volkswagen', modell: 'Golf', generacio: 'VII', karosszeria: 'ferdehatu', evjarat: '2015–2019', arTip: 12500, uzemanyag: 'benzin/dízel', ulesek: 5, meret: 'kozepes', varosi: true, hosszuUt: true, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'skoda-octavia-3-combi', marka: 'Škoda', modell: 'Octavia Combi', generacio: 'III', karosszeria: 'kombi', evjarat: '2015–2019', arTip: 11500, uzemanyag: 'dízel', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'toyota-corolla-12-ts', marka: 'Toyota', modell: 'Corolla Touring Sports', generacio: 'XII (E210)', karosszeria: 'kombi', evjarat: '2019–2022', arTip: 18500, uzemanyag: 'hibrid', ulesek: 5, meret: 'kozepes', varosi: true, hosszuUt: true, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'skoda-superb-3', marka: 'Škoda', modell: 'Superb', generacio: 'III', karosszeria: 'kombi', evjarat: '2016–2019', arTip: 17000, uzemanyag: 'dízel', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'dacia-jogger', marka: 'Dacia', modell: 'Jogger', generacio: 'I', karosszeria: 'egyteru', evjarat: '2022–', arTip: 15500, uzemanyag: 'benzin/LPG', ulesek: 7, meret: 'het', varosi: false, hosszuUt: true, kategoria: 'praktikus', karakter: [], fenntartas: 1, kep: null },
+  { id: 'vw-touran-2', marka: 'Volkswagen', modell: 'Touran', generacio: 'II', karosszeria: 'egyteru', evjarat: '2016–2020', arTip: 16500, uzemanyag: 'dízel', ulesek: 7, meret: 'het', varosi: false, hosszuUt: true, kategoria: 'praktikus', karakter: [], fenntartas: 2, kep: null },
+  { id: 'bmw-3-f30', marka: 'BMW', modell: '3-as', generacio: 'F30', karosszeria: 'szedan', evjarat: '2015–2018', arTip: 15500, uzemanyag: 'dízel/benzin', ulesek: 5, meret: 'kozepes', varosi: false, hosszuUt: true, kategoria: 'premium', karakter: ['sportos'], fenntartas: 2, kep: null },
+  { id: 'mercedes-c-w205', marka: 'Mercedes-Benz', modell: 'C-osztály', generacio: 'W205', karosszeria: 'szedan', evjarat: '2015–2018', arTip: 18500, uzemanyag: 'dízel/benzin', ulesek: 5, meret: 'kozepes', varosi: false, hosszuUt: true, kategoria: 'premium', karakter: ['kenyelmes'], fenntartas: 2, kep: null },
+  { id: 'audi-a4-b9', marka: 'Audi', modell: 'A4', generacio: 'B9', karosszeria: 'szedan', evjarat: '2016–2019', arTip: 19500, uzemanyag: 'dízel/benzin', ulesek: 5, meret: 'kozepes', varosi: false, hosszuUt: true, kategoria: 'premium', karakter: ['technika'], fenntartas: 2, kep: null },
+  { id: 'mercedes-e-w213', marka: 'Mercedes-Benz', modell: 'E-osztály', generacio: 'W213', karosszeria: 'szedan', evjarat: '2016–2019', arTip: 24000, uzemanyag: 'dízel', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'premium', karakter: ['kenyelmes', 'technika'], fenntartas: 2, kep: null },
+  { id: 'volvo-xc60-2', marka: 'Volvo', modell: 'XC60', generacio: 'II', karosszeria: 'suv', evjarat: '2018–2021', arTip: 29000, uzemanyag: 'dízel/hibrid', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'premium', karakter: ['biztonsag', 'kenyelmes'], fenntartas: 2, kep: null },
+  { id: 'audi-a8-d4', marka: 'Audi', modell: 'A8', generacio: 'D4', karosszeria: 'szedan', evjarat: '2014–2017', arTip: 24500, uzemanyag: 'dízel', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'luxus', karakter: ['technika', 'kenyelmes'], fenntartas: 3, kep: null },
+  { id: 'mercedes-s-w222', marka: 'Mercedes-Benz', modell: 'S-osztály', generacio: 'W222', karosszeria: 'szedan', evjarat: '2014–2017', arTip: 31000, uzemanyag: 'dízel', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'luxus', karakter: ['kenyelmes', 'biztonsag'], fenntartas: 3, kep: null },
+  { id: 'bmw-7-g11', marka: 'BMW', modell: '7-es', generacio: 'G11', karosszeria: 'szedan', evjarat: '2016–2019', arTip: 33000, uzemanyag: 'dízel', ulesek: 5, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'luxus', karakter: ['technika', 'sportos'], fenntartas: 3, kep: null },
+  { id: 'porsche-panamera-970', marka: 'Porsche', modell: 'Panamera', generacio: '970 (facelift)', karosszeria: 'ferdehatu', evjarat: '2013–2016', arTip: 39000, uzemanyag: 'benzin', ulesek: 4, meret: 'nagy', varosi: false, hosszuUt: true, kategoria: 'luxus', karakter: ['sportos'], fenntartas: 3, kep: null },
+];

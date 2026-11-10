@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarSearch – használtautó-ajánló és behozatal külföldről</title>
+  <meta name="description" content="Add meg a keretedet és válaszolj 3 egyszerű kérdésre: megmutatjuk, melyik használt autó illik hozzád, és behozzuk neked külföldről, ellenőrizve.">
+  <link rel="canonical" href="https://hodgyaisandorbarna-droid.github.io/Technol-gia-s-Innov-ci-s-projekt---CarSearch/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CarSearch – használtautó-ajánló és behozatal külföldről">
+  <meta property="og:description" content="Megmondod a keretet, mi megmondjuk, melyik autó illik hozzád – és behozzuk külföldről.">
+  <meta property="og:url" content="https://hodgyaisandorbarna-droid.github.io/Technol-gia-s-Innov-ci-s-projekt---CarSearch/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 64'%3E%3Cpath d='M6 52 L16 40 L36 38 L50 26 L82 26 L96 38 L114 42 L114 52 Z' fill='%231f6feb'/%3E%3Ccircle cx='32' cy='52' r='9' fill='%231d2330'/%3E%3Ccircle cx='92' cy='52' r='9' fill='%231d2330'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <header class="top">
+    <strong>CarSearch</strong>
+    <span>Megmondod a keretet, mi megmondjuk, melyik autó illik hozzád – és behozzuk külföldről.</span>
+  </header>
+
+  <main>
+    <form id="wizard" class="card">
+      <section>
+        <label for="budget"><b>Mennyit szánsz rá összesen?</b> <small>(szállítással, ügyintézéssel együtt)</small></label>
+        <div class="budget">
+          <input id="budget" name="budget" type="number" min="1000" step="500" value="15000" required>
+          <span>€</span>
+        </div>
+      </section>
+
+      <section>
+        <label for="marka"><b>Van kedvenc márkád?</b> <small>(nem kötelező)</small></label>
+        <select id="marka" name="marka"><option value="">Mindegy</option></select>
+      </section>
+
+      <fieldset>
+        <legend>Hányan utaztok általában?</legend>
+        <label><input type="radio" name="utasok" value="1-2">1–2 fő</label>
+        <label><input type="radio" name="utasok" value="3-5">3–5 fő</label>
+        <label><input type="radio" name="utasok" value="6-7">6–7 fő</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Hol jársz többet?</legend>
+        <label><input type="radio" name="ut" value="varos">Főleg város</label>
+        <label><input type="radio" name="ut" value="vegyes">Vegyesen</label>
+        <label><input type="radio" name="ut" value="hosszu">Sok hosszú út</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Milyen kategória érdekel?</legend>
+        <label><input type="radio" name="kategoria" value="praktikus">Praktikus</label>
+        <label title="pl. Audi A4, BMW 3-as, Mercedes C"><input type="radio" name="kategoria" value="premium">Prémium <small>pl. Audi A4, BMW 3-as</small></label>
+        <label title="pl. Audi A8, BMW 7-es, Mercedes S"><input type="radio" name="kategoria" value="luxus">Luxus <small>pl. Audi A8, Mercedes S</small></label>
+        <label><input type="radio" name="kategoria" value="mindegy">Mindegy</label>
+      </fieldset>
+
+      <fieldset id="karakterBox" hidden>
+        <legend>Mi tetszik jobban?</legend>
+        <label><input type="radio" name="karakter" value="sportos">Sportos</label>
+        <label><input type="radio" name="karakter" value="kenyelmes">Kényelmes</label>
+        <label><input type="radio" name="karakter" value="technika">Modern technika</label>
+        <label><input type="radio" name="karakter" value="biztonsag">Biztonság</label>
+      </fieldset>
+
+      <label class="check"><input type="checkbox" name="kezdo"> 25 év alatti / kezdő sofőr vagyok</label>
+
+      <p class="hint">Bármelyik kérdést kihagyhatod.</p>
+      <button type="submit">Mutasd az ajánlatokat</button>
+    </form>
+
+    <section id="results" aria-live="polite"></section>
+
+    <dialog id="request">
+      <form method="dialog" id="requestForm">
+        <h2 id="requestTitle"></h2>
+        <p>Megkeressük külföldön a konkrét autót, ellenőrizzük az előéletét, és ajánlatot küldünk. Ez még nem vásárlás.</p>
+        <label>Név <input name="nev" required autocomplete="name"></label>
+        <label>E-mail <input name="email" type="email" required autocomplete="email"></label>
+        <label>Telefon <input name="telefon" type="tel" autocomplete="tel"></label>
+        <label>Megjegyzés <textarea name="megjegyzes" rows="3" placeholder="pl. szín, váltó, max. km"></textarea></label>
+        <div class="actions">
+          <button value="cancel" formnovalidate class="secondary">Mégse</button>
+          <button value="ok">Ajánlatkérés elküldése</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

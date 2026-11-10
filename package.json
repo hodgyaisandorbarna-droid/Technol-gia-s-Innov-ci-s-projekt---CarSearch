@@ -1,0 +1,11 @@
+{
+  "name": "carsearch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Használtautó-ajánló és külföldi beszerzés – prototípus",
+  "scripts": {
+    "start": "npx --yes serve@14.2.4 .",
+    "test": "node --test test/*.test.js"
+  }
+}
