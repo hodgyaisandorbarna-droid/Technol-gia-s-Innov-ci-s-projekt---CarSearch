@@ -1,40 +1,68 @@
 :root {
   --bg: #f4f5f7; --card: #fff; --text: #1d2330; --muted: #5e6675;
-  --accent: #1f6feb; --accent-text: #fff; --line: #dde1e7; --ok: #e6f4ea; --warn: #fff4e0;
+  --accent: #1f6feb; --accent-text: #fff; --line: #dde1e7; --ok: #e6f4ea; --warn: #fff4e0; --error: #b42318;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #12151b; --card: #1b2029; --text: #e7eaf0; --muted: #9aa3b2;
-    --accent: #4c8dff; --line: #2c3340; --ok: #17311f; --warn: #3a2e14;
+    --accent: #4c8dff; --line: #2c3340; --ok: #17311f; --warn: #3a2e14; --error: #ff8a80;
   }
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: var(--bg); color: var(--text); }
-.top { padding: 16px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; border-bottom: 1px solid var(--line); }
-.top strong { font-size: 1.3rem; }
-.top span { color: var(--muted); }
+.top { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.brand { font-size: 1.3rem; font-weight: 700; color: var(--text); text-decoration: none; }
 main { max-width: 960px; margin: 0 auto; padding: 16px; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
-#wizard { display: grid; gap: 16px; }
-fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-legend { font-weight: 600; margin-bottom: 8px; }
-fieldset label { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
-fieldset label:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
-fieldset input { margin: 0 6px 0 0; }
+h1, h2, h3 { line-height: 1.25; }
 small { color: var(--muted); }
-.budget { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-input, select, textarea { font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
-#budget { width: 10em; font-size: 1.2rem; }
-select { display: block; margin-top: 6px; min-width: 12em; }
-.check { display: flex; gap: 8px; align-items: center; }
 .hint { color: var(--muted); margin: 0; }
-button { font: inherit; border: 0; border-radius: 8px; padding: 10px 18px; background: var(--accent); color: var(--accent-text); cursor: pointer; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+
+/* Bevezető */
+.hero { text-align: center; padding: 40px 0 32px; }
+.hero h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin: 0 auto 12px; max-width: 22ch; }
+.lead { font-size: 1.1rem; color: var(--muted); max-width: 46ch; margin: 0 auto 24px; }
+.hero .hint { margin-top: 10px; font-size: .92rem; }
+#intro h2 { text-align: center; margin-top: 16px; }
+.steps { list-style: none; padding: 0; margin: 16px 0 32px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.steps li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.steps h3 { margin: 10px 0 6px; font-size: 1.05rem; }
+.steps p { margin: 0; color: var(--muted); font-size: .95rem; }
+.num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-text); font-weight: 700; }
+
+/* Kérdőív */
+#wizard { max-width: 640px; margin: 24px auto; display: grid; gap: 16px; }
+.progress { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+#bar { height: 100%; width: 0; background: var(--accent); transition: width .3s ease; }
+fieldset { border: 0; padding: 0; margin: 0; min-height: 200px; }
+legend { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; padding: 0; }
+.step > .hint { margin-bottom: 16px; }
+.options { display: grid; gap: 10px; margin-top: 12px; }
+.options label { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; min-height: 52px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; cursor: pointer; font-size: 1.05rem; }
+.options label:hover { border-color: var(--accent); }
+.options label:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.options label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.options input { margin: 0; accent-color: var(--accent); }
+.options small { flex-basis: 100%; padding-left: 26px; font-size: .88rem; }
+#markaOptions { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.budget { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 1.4rem; }
+input, select, textarea { font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+#budget { width: 8em; font-size: 1.4rem; }
+.error { color: var(--error); margin: 8px 0 0; }
+.nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+#back { margin-right: auto; }
+
+button { font: inherit; border: 0; border-radius: 8px; padding: 10px 18px; min-height: 44px; background: var(--accent); color: var(--accent-text); cursor: pointer; }
 button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
-#results { margin-top: 24px; display: grid; gap: 12px; }
+button.big { font-size: 1.15rem; padding: 14px 36px; }
+
+/* Találatok */
+#results { margin-top: 8px; display: grid; gap: 12px; }
+#results > h2 { margin: 8px 0 0; }
 .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-.car { display: flex; flex-direction: column; gap: 6px; }
+.car { display: flex; flex-direction: column; gap: 6px; padding: 16px; }
 .car h3 { margin: 0; font-size: 1.1rem; }
 .car h3 small { display: block; font-weight: 400; }
 .pic { color: var(--muted); aspect-ratio: 16 / 9; display: grid; place-items: center; background: var(--bg); border-radius: 8px; overflow: hidden; }
@@ -45,6 +73,7 @@ button.secondary { background: transparent; color: var(--text); border: 1px soli
 .price { margin: auto 0 4px; }
 .notice { background: var(--warn); padding: 10px 14px; border-radius: 8px; margin: 0; }
 .notice.ok { background: var(--ok); }
+.empty h2 { margin-top: 0; }
 dialog { border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--text); max-width: min(480px, calc(100vw - 32px)); }
 dialog form { display: grid; gap: 10px; }
 dialog label { display: grid; gap: 4px; }
