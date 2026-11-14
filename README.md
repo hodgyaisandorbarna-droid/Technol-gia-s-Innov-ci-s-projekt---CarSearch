@@ -24,6 +24,7 @@ npm test
 |------|--------|
 | `index.html` | nyitóoldal (keret, lépések, végösszeg, kínálat, kérdések), kérdőív, találatok, ajánlatkérő ablak |
 | `src/catalog.js` | példakatalógus (modellgenerációk, becsült árak) |
+| `src/credits.js` | a modellfotók szerzője, licence és forrása (Wikimedia Commons) |
 | `src/recommend.js` | végár-képlet, szűrés, pontozás, lazítás 0 találatnál |
 | `src/app.js` | felület logikája |
 | `src/styles.css` | stílus (világos/sötét mód) |

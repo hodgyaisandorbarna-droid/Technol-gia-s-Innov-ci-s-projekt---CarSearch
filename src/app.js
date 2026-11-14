@@ -1,4 +1,5 @@
 import { CATALOG } from './catalog.js';
+import { CREDITS } from './credits.js';
 import { recommend, maxCarPrice, totalPrice, COSTS, KARAKTER_LABEL } from './recommend.js';
 
 const intro = document.getElementById('intro');
@@ -197,8 +198,8 @@ function render({ results, pMax, notice }) {
     ${kezdo}
     <div class="list">
       ${results.map((r, i) => `
-        <article class="car" style="--i:${i}">
-          ${r.model.kep ? `<div class="pic"><img src="public/img/${r.model.kep}" alt="${r.model.marka} ${r.model.modell}" loading="lazy" width="840" height="360"></div>` : ''}
+        <article class="car${r.model.kep ? ' has-pic' : ''}" style="--i:${i}">
+          ${r.model.kep ? `<div class="pic"><img src="public/img/${r.model.kep}" alt="${r.model.marka} ${r.model.modell} ${r.model.generacio}" loading="lazy" decoding="async" width="800" height="500"></div>` : ''}
           <div>
             <h3>${r.model.marka} ${r.model.modell} <small>${r.model.generacio} · ${r.model.evjarat}</small></h3>
             <div class="facts">
@@ -248,6 +249,17 @@ dialog.addEventListener('close', () => {
   resultsEl.insertAdjacentHTML('afterbegin',
     `<p class="notice ok" role="status">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt, és hamarosan jelentkezünk.</p>`);
   window.scrollTo({ top: 0 });
+});
+
+// ── Képek forrása ──
+document.getElementById('creditsList').innerHTML = CATALOG.filter(m => CREDITS[m.id]).map(m => {
+  const c = CREDITS[m.id];
+  return `<li><a href="${c.forras}" target="_blank" rel="noopener">${m.marka} ${m.modell}</a> – ${c.szerzo}, ` +
+    (c.licencUrl ? `<a href="${c.licencUrl}" target="_blank" rel="noopener">${c.licenc}</a>` : c.licenc) + '</li>';
+}).join('');
+document.getElementById('creditsLink').addEventListener('click', e => {
+  e.preventDefault();
+  document.getElementById('credits').showModal();
 });
 
 setBudget(form.budget.value);
