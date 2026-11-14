@@ -1,5 +1,6 @@
 import { CATALOG } from './catalog.js';
 import { CREDITS } from './credits.js';
+import { addRequest } from './store.js';
 import { recommend, maxCarPrice, totalPrice, COSTS, KARAKTER_LABEL } from './recommend.js';
 
 const intro = document.getElementById('intro');
@@ -242,12 +243,18 @@ resultsEl.addEventListener('click', e => {
 dialog.addEventListener('close', () => {
   if (dialog.returnValue !== 'ok' || !selected) return;
   const contact = Object.fromEntries(new FormData(requestForm));
-  // Prototípus: nincs még backend, a kérést csak a konzolra írjuk.
-  console.log('Ajánlatkérés', { modell: selected.model.id, valaszok: lastAnswers, kapcsolat: contact });
+  // Prototípus: a kérés a böngésző helyi tárolójába kerül, az admin oldal innen olvassa (lásd src/store.js).
+  const req = addRequest({
+    modelId: selected.model.id,
+    modell: `${selected.model.marka} ${selected.model.modell} ${selected.model.generacio}`,
+    vegar: selected.vegar,
+    valaszok: lastAnswers,
+    kapcsolat: contact,
+  });
   requestForm.reset();
   resultsEl.querySelector('.notice.ok')?.remove();
   resultsEl.insertAdjacentHTML('afterbegin',
-    `<p class="notice ok" role="status">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt, és hamarosan jelentkezünk.</p>`);
+    `<p class="notice ok" role="status">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt, és hamarosan jelentkezünk. A kérésed azonosítója: <b>${req.id}</b>.</p>`);
   window.scrollTo({ top: 0 });
 });
 
