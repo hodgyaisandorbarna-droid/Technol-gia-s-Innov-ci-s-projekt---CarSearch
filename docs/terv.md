@@ -39,7 +39,7 @@ A jelenlegi feltételezések (`src/recommend.js`, `COSTS`): szállítás 800 €
 ## Katalógus
 - 50–80 kézzel összeállított sor elég; az árakat negyedévente kézzel frissítjük.
 - Oszlopok: márka, modell, generáció, karosszéria, évjárat-sáv, tipikus ár, üzemanyag, ülések, méret, városi, hosszú út, kategória, karakter, fenntartás, kép.
-- A jelenlegi 17 soros példakatalógus árai **becsültek**, valódi hirdetésekből kell ellenőrizni.
+- A jelenlegi 29 soros példakatalógus árai **becsültek**, valódi hirdetésekből kell ellenőrizni.
 
 ## Képek
 - Modellgenerációnként 1 kép, WebP, kb. 800 px széles, 50–80 KB, statikus fájlként (`public/img/`), az adatbázisban csak a fájlnév.
@@ -58,7 +58,7 @@ Díj: F = p · P_autó (pl. 4 %: 10 000 €-s autón 400 €, 40 000 €-sen 1 6
 | Fázis | Tartalom | Állapot |
 |-------|----------|---------|
 | 0 | Ötlet, folyamat, kérdések, ajánló logika | kész |
-| 1 | Prototípus: kérdőív, ajánlómotor, 17 soros példakatalógus, tesztek | **kész** |
+| 1 | Prototípus: kérdőív, ajánlómotor, 29 soros példakatalógus, tesztek | **kész** |
 | 2 | Katalógus bővítése 50–80 sorra valós árakkal, képek a Wikimedia Commonsból | következő |
 | 3 | Backend: az ajánlatkérések mentése (adatbázis), e-mail értesítés, admin lista | |
 | 4 | Admin felület: katalógus szerkesztése, ajánlatkérések állapota (új → keresés → ajánlat → szállítás → átadva) | |
