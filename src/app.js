@@ -1,34 +1,103 @@
 import { CATALOG } from './catalog.js';
-import { recommend, KARAKTER_LABEL } from './recommend.js';
+import { recommend, maxCarPrice, totalPrice, COSTS, KARAKTER_LABEL } from './recommend.js';
 
 const intro = document.getElementById('intro');
 const form = document.getElementById('wizard');
 const resultsEl = document.getElementById('results');
 const dialog = document.getElementById('request');
 const requestForm = document.getElementById('requestForm');
+const heroBudget = document.getElementById('heroBudget');
 const steps = [...form.querySelectorAll('.step')];
 const backBtn = document.getElementById('back');
 const skipBtn = document.getElementById('skip');
 const nextBtn = document.getElementById('next');
+const MIN_BUDGET = 1000;
 let current = 0;
 let lastAnswers = null;
 let selected = null;
 
-const eur = n => n.toLocaleString('hu-HU') + ' €';
+const num = n => n.toLocaleString('hu-HU', { useGrouping: 'always' });
+const eur = n => num(n) + ' €';
 const KAT_LABEL = { praktikus: 'Praktikus', premium: 'Prémium', luxus: 'Luxus' };
+const FENNTARTAS = { 1: 'alacsony', 2: 'közepes', 3: 'magas' };
 
-// Márka-opciók a katalógusból
+// ── Keret: a nyitóképernyő és a kérdőív első lépése ugyanazt az értéket mutatja ──
+function renderBudget(budget) {
+  const pMax = maxCarPrice(budget);
+  const count = CATALOG.filter(m => m.arTip <= pMax).length;
+  const cheapest = Math.min(...CATALOG.map(m => totalPrice(m.arTip)));
+  document.getElementById('fit').innerHTML = count
+    ? `<b>${count} modell</b> fér bele ebbe a keretbe.`
+    : `Ebbe a keretbe még nem fér bele modell – a legolcsóbb kb. <b>${eur(cheapest)}</b>.`;
+
+  const car = Math.round(pMax);
+  const fee = Math.max(0, budget - car - COSTS.szallitas - COSTS.ugyintezes);
+  document.getElementById('costLine').innerHTML =
+    `Egy <b>${eur(budget)}</b> keretből az autóra legfeljebb <b>${eur(car)}</b> jut. A többi a behozatal költsége – rejtett tétel nélkül.`;
+  document.getElementById('costs').innerHTML = [
+    ['Az autó ára legfeljebb', car],
+    ['Szállítás külföldről', COSTS.szallitas],
+    ['Ügyintézés, honosítás', COSTS.ugyintezes],
+    [`A mi díjunk (${COSTS.dijSzazalek * 100}%)`, fee],
+  ].map(([k, v]) => `<div><dt>${k}</dt><dd>${eur(v)}</dd></div>`).join('') +
+    `<div class="sum"><dt>Végösszeg</dt><dd>${eur(budget)}</dd></div>`;
+}
+
+function setBudget(value, from) {
+  const budget = Math.max(0, Math.round(Number(value) || 0));
+  if (from !== heroBudget) heroBudget.value = num(budget);
+  if (from !== form.budget) form.budget.value = budget;
+  renderBudget(budget);
+}
+
+heroBudget.addEventListener('input', () => setBudget(heroBudget.value.replace(/\D/g, ''), heroBudget));
+heroBudget.addEventListener('blur', () => setBudget(form.budget.value));
+heroBudget.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('start').click(); });
+form.budget.addEventListener('input', () => setBudget(form.budget.value, form.budget));
+document.querySelectorAll('[data-step]').forEach(btn => {
+  if (btn.tagName !== 'BUTTON') return;
+  btn.addEventListener('click', () => setBudget(Math.max(MIN_BUDGET, Number(form.budget.value) + Number(btn.dataset.step))));
+});
+
+// ── Kínálat-táblázat ──
+const carRows = document.getElementById('carRows');
+const byPrice = [...CATALOG].sort((a, b) => a.arTip - b.arTip);
+function renderCars(kat) {
+  carRows.innerHTML = byPrice.filter(m => !kat || m.kategoria === kat).map(m => `
+    <tr>
+      <td>${m.marka} ${m.modell} <small>${m.generacio}<span class="sub">${m.evjarat} · ${m.uzemanyag} · ${KAT_LABEL[m.kategoria]}</span></small></td>
+      <td class="opt">${m.evjarat}</td>
+      <td class="opt">${m.uzemanyag}</td>
+      <td class="opt">${KAT_LABEL[m.kategoria]}</td>
+      <td class="num">${eur(totalPrice(m.arTip))}</td>
+    </tr>`).join('');
+}
+document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === chip)));
+  renderCars(chip.dataset.kat);
+}));
+
+// ── Márka-opciók a katalógusból ──
 const markaOptions = document.getElementById('markaOptions');
-[...new Set(CATALOG.map(m => m.marka))].sort().forEach(marka => {
+[...new Set(CATALOG.map(m => m.marka))].sort((a, b) => a.localeCompare(b, 'hu')).forEach(marka => {
   const label = document.createElement('label');
-  label.innerHTML = `<input type="radio" name="marka" value="${marka}">${marka}`;
+  label.innerHTML = `<input type="radio" name="marka" value="${marka}"><span>${marka}</span>`;
   markaOptions.append(label);
 });
 
 function show(screen) {
   for (const el of [intro, form, resultsEl]) el.hidden = el !== screen;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0 });
 }
+
+// A fejléc és a lábléc hivatkozásai a kérdőívből és a találatokból is a nyitóoldalra visznek
+document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', e => {
+  if (!intro.hidden && a.dataset.nav !== 'home') return;
+  e.preventDefault();
+  if (intro.hidden) show(intro);
+  const target = a.dataset.nav === 'home' ? null : document.querySelector(a.getAttribute('href'));
+  if (target) target.scrollIntoView(); else window.scrollTo({ top: 0 });
+}));
 
 // A karakter-kérdés csak prémium/luxus esetén jön
 function isActive(step) {
@@ -41,8 +110,8 @@ function renderStep() {
   const list = steps.filter(isActive);
   steps.forEach(s => (s.hidden = s !== steps[current]));
   const pos = list.indexOf(steps[current]);
-  document.getElementById('counter').textContent = `${pos + 1}. kérdés / ${list.length}`;
-  document.getElementById('bar').style.width = `${((pos + 1) / list.length) * 100}%`;
+  document.getElementById('counter').textContent = `${pos + 1}. kérdés a ${list.length}-${[1, 2, 4, 5, 7, 9].includes(list.length) ? 'ből' : 'ból'}`;
+  document.getElementById('bar').style.transform = `scaleX(${(pos + 1) / list.length})`;
   backBtn.hidden = pos === 0;
   skipBtn.hidden = steps[current].dataset.step === 'budget';
   nextBtn.textContent = pos === list.length - 1 ? 'Mutasd az ajánlatokat' : 'Tovább';
@@ -60,13 +129,14 @@ function go(delta) {
 }
 
 function validBudget() {
-  const ok = Number(form.budget.value) >= 1000;
+  const ok = Number(form.budget.value) >= MIN_BUDGET;
   document.getElementById('budgetError').hidden = ok;
   return ok;
 }
 
+// A keret már megvan a nyitóképernyőről, ezért a kérdőív a második kérdéssel indul
 document.getElementById('start').addEventListener('click', () => {
-  current = 0;
+  current = validBudget() ? 1 : 0;
   show(form);
   renderStep();
 });
@@ -91,7 +161,8 @@ form.addEventListener('change', e => {
   if (e.target.name === 'kategoria' && !isActive(steps.find(s => s.dataset.step === 'karakter'))) {
     form.querySelectorAll('input[name=karakter]').forEach(i => (i.checked = false));
   }
-  setTimeout(() => go(1), 250);
+  const step = steps[current];
+  setTimeout(() => { if (steps[current] === step && !form.hidden) go(1); }, 250);
 });
 
 function finish() {
@@ -109,28 +180,12 @@ function finish() {
   show(resultsEl);
 }
 
-// Karosszéria-sziluett, amíg nincs szabad licencű fotó
-const SILHOUETTE = {
-  ferdehatu: 'M10 52 L22 34 L58 28 L82 30 L104 42 L110 52 Z',
-  kombi: 'M8 52 L18 34 L44 26 L100 26 L108 40 L112 52 Z',
-  szedan: 'M6 52 L16 40 L36 38 L50 26 L82 26 L96 38 L114 42 L114 52 Z',
-  suv: 'M8 52 L10 34 L30 22 L94 22 L106 34 L112 38 L112 52 Z',
-  egyteru: 'M8 52 L10 34 L34 18 L96 18 L108 36 L112 52 Z',
-};
-function picture(m) {
-  if (m.kep) return `<img src="public/img/${m.kep}" alt="${m.marka} ${m.modell}" loading="lazy" width="800" height="450">`;
-  const d = SILHOUETTE[m.karosszeria] || SILHOUETTE.ferdehatu;
-  return `<svg viewBox="0 0 120 64" role="img" aria-label="${m.karosszeria}"><path d="${d}" fill="currentColor"/>` +
-    `<circle cx="32" cy="52" r="8" fill="currentColor" stroke="var(--card)" stroke-width="3"/>` +
-    `<circle cx="92" cy="52" r="8" fill="currentColor" stroke="var(--card)" stroke-width="3"/></svg>`;
-}
-
-const restart = `<div class="nav"><button type="button" class="secondary" data-action="edit">Válaszok módosítása</button>
-  <button type="button" class="secondary" data-action="restart">Újrakezdés</button></div>`;
+const restart = `<div class="nav"><button type="button" class="quiet" data-action="edit">Válaszok módosítása</button>
+  <button type="button" class="quiet" data-action="restart">Újrakezdés</button></div>`;
 
 function render({ results, pMax, notice }) {
   if (results.length === 0) {
-    resultsEl.innerHTML = `<div class="card empty"><h2>Nincs találat</h2><p>Ebből a keretből sajnos nem találtunk megfelelő modellt. Próbálj nagyobb keretet, vagy hagyd ki a márkát.</p>${restart}</div>`;
+    resultsEl.innerHTML = `<div class="empty"><h2>Ebből a keretből még nincs találat</h2><p>Próbálj nagyobb keretet, vagy hagyd ki a márkát.</p>${restart}</div>`;
     return;
   }
   const kezdo = lastAnswers.kezdo
@@ -140,17 +195,22 @@ function render({ results, pMax, notice }) {
     <p class="hint">Az autó ára legfeljebb kb. ${eur(pMax)} lehet, hogy a végösszeg beleférjen a ${eur(lastAnswers.budget)} keretbe.</p>
     ${notice ? `<p class="notice">${notice}</p>` : ''}
     ${kezdo}
-    <div class="grid">
+    <div class="list">
       ${results.map((r, i) => `
-        <article class="card car">
-          <div class="pic">${picture(r.model)}</div>
-          <h3>${r.model.marka} ${r.model.modell} <small>${r.model.generacio} (${r.model.evjarat})</small></h3>
-          <p class="meta">${KAT_LABEL[r.model.kategoria]} · ${r.model.uzemanyag} · ${r.model.ulesek} ülés ·
-            fenntartás <b title="becsült fenntartási költség">${'€'.repeat(r.model.fenntartas)}</b></p>
-          ${r.model.karakter.length ? `<p class="meta">${r.model.karakter.map(k => KARAKTER_LABEL[k]).join(', ')}</p>` : ''}
-          <ul class="matches">${r.matches.map(t => `<li>✓ ${t}</li>`).join('')}</ul>
-          <p class="price">Becsült végösszeg: <b>${eur(r.vegar)}</b></p>
-          <button type="button" data-i="${i}">Ezt kérem</button>
+        <article class="car" style="--i:${i}">
+          ${r.model.kep ? `<div class="pic"><img src="public/img/${r.model.kep}" alt="${r.model.marka} ${r.model.modell}" loading="lazy" width="840" height="360"></div>` : ''}
+          <div>
+            <h3>${r.model.marka} ${r.model.modell} <small>${r.model.generacio} · ${r.model.evjarat}</small></h3>
+            <div class="facts">
+              <p>${KAT_LABEL[r.model.kategoria]} · ${r.model.uzemanyag} · ${r.model.ulesek} ülés · fenntartás: ${FENNTARTAS[r.model.fenntartas]}${
+                r.model.karakter.length ? ' · ' + r.model.karakter.map(k => KARAKTER_LABEL[k]).join(', ') : ''}</p>
+              ${r.matches.length ? `<p><b>Illik hozzád:</b> ${r.matches.join(', ')}</p>` : ''}
+            </div>
+          </div>
+          <div class="buy">
+            <p class="price">Becsült végösszeg <b>${eur(r.vegar)}</b></p>
+            <button type="button" data-i="${i}">Ezt kérem</button>
+          </div>
         </article>`).join('')}
     </div>
     ${restart}`;
@@ -159,6 +219,7 @@ function render({ results, pMax, notice }) {
       selected = results[Number(btn.dataset.i)];
       document.getElementById('requestTitle').textContent =
         `${selected.model.marka} ${selected.model.modell} ${selected.model.generacio}`;
+      dialog.returnValue = '';
       dialog.showModal();
     });
   });
@@ -172,6 +233,7 @@ resultsEl.addEventListener('click', e => {
     renderStep();
   } else if (action === 'restart') {
     form.reset();
+    setBudget(form.budget.value);
     show(intro);
   }
 });
@@ -182,7 +244,11 @@ dialog.addEventListener('close', () => {
   // Prototípus: nincs még backend, a kérést csak a konzolra írjuk.
   console.log('Ajánlatkérés', { modell: selected.model.id, valaszok: lastAnswers, kapcsolat: contact });
   requestForm.reset();
+  resultsEl.querySelector('.notice.ok')?.remove();
   resultsEl.insertAdjacentHTML('afterbegin',
-    `<p class="notice ok">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt, és hamarosan jelentkezünk.</p>`);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+    `<p class="notice ok" role="status">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt, és hamarosan jelentkezünk.</p>`);
+  window.scrollTo({ top: 0 });
 });
+
+setBudget(form.budget.value);
+renderCars('');

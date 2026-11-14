@@ -4,128 +4,207 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CarSearch – használtautó-ajánló és behozatal külföldről</title>
-  <meta name="description" content="Add meg a keretedet és válaszolj 3 egyszerű kérdésre: megmutatjuk, melyik használt autó illik hozzád, és behozzuk neked külföldről, ellenőrizve.">
+  <meta name="description" content="Add meg a keretedet és válaszolj néhány egyszerű kérdésre: megmutatjuk, melyik használt autó illik hozzád, és behozzuk neked külföldről, ellenőrizve.">
   <link rel="canonical" href="https://hodgyaisandorbarna-droid.github.io/Technol-gia-s-Innov-ci-s-projekt---CarSearch/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="CarSearch – használtautó-ajánló és behozatal külföldről">
   <meta property="og:description" content="Megmondod a keretet, mi megmondjuk, melyik autó illik hozzád – és behozzuk külföldről.">
   <meta property="og:url" content="https://hodgyaisandorbarna-droid.github.io/Technol-gia-s-Innov-ci-s-projekt---CarSearch/">
   <meta property="og:locale" content="hu_HU">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 64'%3E%3Cpath d='M6 52 L16 40 L36 38 L50 26 L82 26 L96 38 L114 42 L114 52 Z' fill='%231f6feb'/%3E%3Ccircle cx='32' cy='52' r='9' fill='%231d2330'/%3E%3Ccircle cx='92' cy='52' r='9' fill='%231d2330'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#f3f4f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c1210" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b7a4b'/%3E%3Cpath d='M44 23a15 15 0 1 0 0 18' fill='none' stroke='%23fff' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+
   <header class="top">
-    <a href="./" class="brand">CarSearch</a>
+    <a href="./" class="brand" data-nav="home">CarSearch</a>
+    <nav aria-label="Fő navigáció">
+      <a href="#hogyan" data-nav>Hogyan működik</a>
+      <a href="#vegosszeg" data-nav>Végösszeg</a>
+      <a href="#autok" data-nav>Autók</a>
+      <a href="#kerdesek" data-nav>Kérdések</a>
+    </nav>
   </header>
 
-  <main>
+  <main id="main">
     <!-- Bevezető -->
-    <section id="intro" class="screen">
-      <div class="hero">
-        <h1>Megmondod a keretet, mi megmondjuk, melyik autó illik hozzád.</h1>
-        <p class="lead">Nyugat-európai használt autók, ellenőrizve és házhoz hozva. Nem kell autós szakértőnek lenned: néhány egyszerű kérdés alapján mi ajánlunk.</p>
-        <button type="button" id="start" class="big">Kezdjük</button>
-        <p class="hint">Kb. 1 perc · bármelyik kérdés kihagyható</p>
-      </div>
+    <div id="intro" class="screen">
+      <section class="hero">
+        <div class="hero-text">
+          <h1>Mondd a keretet. <span>Mi hozzuk az autót.</span></h1>
+          <p class="lead">Nyugat-európai használt autók, ellenőrizve és házhoz hozva. A végösszeget előre látod.</p>
+        </div>
 
-      <h2>Hogyan működik?</h2>
-      <ol class="steps">
-        <li>
-          <span class="num">1</span>
-          <h3>Megadod a keretet</h3>
-          <p>A teljes összeget, amit szánsz rá – a szállítás és az ügyintézés is benne van.</p>
-        </li>
-        <li>
-          <span class="num">2</span>
-          <h3>Válaszolsz pár kérdésre</h3>
-          <p>Hányan utaztok, hol jársz többet, milyen kategória érdekel. Egy kattintás mindegyik.</p>
-        </li>
-        <li>
-          <span class="num">3</span>
-          <h3>Ajánlunk 3–5 modellt</h3>
-          <p>Képpel, becsült végösszeggel, és azzal, hogy miért illik hozzád.</p>
-        </li>
-        <li>
-          <span class="num">4</span>
-          <h3>Megkeressük és behozzuk</h3>
-          <p>Kiválasztod a modellt, mi megkeressük a konkrét autót külföldön, ellenőrizzük az előéletét, és behozzuk.</p>
-        </li>
-      </ol>
-    </section>
+        <div class="tool" role="group" aria-labelledby="toolLabel">
+          <label id="toolLabel" for="heroBudget">Mennyit szánsz rá összesen?</label>
+          <div class="stepper">
+            <button type="button" class="quiet round" data-step="-500" aria-label="500 euróval kevesebb">−</button>
+            <div class="amount">
+              <input id="heroBudget" type="text" inputmode="numeric" autocomplete="off" value="15 000" aria-describedby="fit">
+              <span aria-hidden="true">€</span>
+            </div>
+            <button type="button" class="quiet round" data-step="500" aria-label="500 euróval több">+</button>
+          </div>
+          <p id="fit" class="fit" aria-live="polite"></p>
+          <button type="button" id="start" class="wide">Megnézem, melyik illik hozzám</button>
+          <p class="hint">Kb. 1 perc · bármelyik kérdés kihagyható</p>
+        </div>
+      </section>
+
+      <section id="hogyan" class="band split">
+        <h2>Négy lépés a kulcsátadásig</h2>
+        <ol class="steps">
+          <li>
+            <h3>Megadod a keretet</h3>
+            <p>A teljes összeget, amit rászánsz – a szállítás és az ügyintézés is benne van.</p>
+          </li>
+          <li>
+            <h3>Válaszolsz pár kérdésre</h3>
+            <p>Hányan utaztok, hol jársz többet, milyen kategória érdekel. Mindegyik egy kattintás.</p>
+          </li>
+          <li>
+            <h3>Ajánlunk 3–5 modellt</h3>
+            <p>Becsült végösszeggel, és azzal, hogy miért illik hozzád.</p>
+          </li>
+          <li>
+            <h3>Megkeressük és behozzuk</h3>
+            <p>Megkeressük a konkrét autót külföldön, ellenőrizzük az előéletét, és elhozzuk neked.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="vegosszeg" class="field">
+        <div class="field-in">
+          <div>
+            <h2>A végösszeg előre látszik</h2>
+            <p class="statement" id="costLine"></p>
+          </div>
+          <dl class="costs" id="costs"></dl>
+        </div>
+      </section>
+
+      <section id="autok" class="band">
+        <div class="band-head">
+          <h2>Autók a kínálatból</h2>
+          <div class="filters" role="group" aria-label="Szűrés kategória szerint">
+            <button type="button" class="chip" data-kat="" aria-pressed="true">Mind</button>
+            <button type="button" class="chip" data-kat="praktikus" aria-pressed="false">Praktikus</button>
+            <button type="button" class="chip" data-kat="premium" aria-pressed="false">Prémium</button>
+            <button type="button" class="chip" data-kat="luxus" aria-pressed="false">Luxus</button>
+          </div>
+        </div>
+        <table class="cars">
+          <thead>
+            <tr><th scope="col">Modell</th><th scope="col" class="opt">Évjárat</th><th scope="col" class="opt">Üzemanyag</th><th scope="col" class="opt">Kategória</th><th scope="col" class="num">Végösszeg kb.</th></tr>
+          </thead>
+          <tbody id="carRows"></tbody>
+        </table>
+        <p class="hint">A végösszeg a szállítást, az ügyintézést és a díjunkat is tartalmazza. Az árak becsült, tipikus nyugat-európai árak.</p>
+      </section>
+
+      <section id="kerdesek" class="band split">
+        <h2>Amit a legtöbben kérdeznek</h2>
+        <div class="faq">
+          <details open>
+            <summary>Kötelez valamire az ajánlatkérés?</summary>
+            <p>Nem. Az ajánlatkérés még nem vásárlás: megkeressük a konkrét autót, és ajánlatot küldünk. Te döntesz.</p>
+          </details>
+          <details>
+            <summary>Honnan jönnek az autók?</summary>
+            <p>Nyugat-Európából, főleg Németországból, Belgiumból és Franciaországból.</p>
+          </details>
+          <details>
+            <summary>Hogyan ellenőrzitek az autót?</summary>
+            <p>Az alvázszám alapján lekérdezzük az autó előéletét, mielőtt ajánlatot küldünk róla.</p>
+          </details>
+          <details>
+            <summary>Mennyire pontosak az árak?</summary>
+            <p>Az itt látott összegek becslések, tipikus hirdetési árakból számolva. A pontos végösszeget a konkrét autóra szóló ajánlat tartalmazza.</p>
+          </details>
+        </div>
+      </section>
+    </div>
 
     <!-- Kérdőív: egyszerre egy kérdés -->
-    <form id="wizard" class="screen card" hidden novalidate>
-      <div class="progress" aria-hidden="true"><div id="bar"></div></div>
-      <p id="counter" class="hint"></p>
+    <form id="wizard" class="screen" hidden novalidate>
+      <div class="wizard-head">
+        <p id="counter"></p>
+        <div class="progress" aria-hidden="true"><div id="bar"></div></div>
+      </div>
 
       <fieldset class="step" data-step="budget">
         <legend>Mennyit szánsz rá összesen?</legend>
         <p class="hint">A szállítással és az ügyintézéssel együtt.</p>
-        <div class="budget">
-          <input id="budget" name="budget" type="number" min="1000" step="500" value="15000" inputmode="numeric" aria-label="Keret euróban">
-          <span>€</span>
+        <div class="amount in-form">
+          <input id="budget" name="budget" type="number" min="1000" step="500" value="15000" inputmode="numeric" aria-label="Keret euróban" aria-describedby="budgetError">
+          <span aria-hidden="true">€</span>
         </div>
-        <p id="budgetError" class="error" hidden>Adj meg legalább 1 000 €-t.</p>
+        <p id="budgetError" class="error" role="alert" hidden>Adj meg legalább 1 000 €-t.</p>
       </fieldset>
 
       <fieldset class="step" data-step="marka">
         <legend>Van kedvenc márkád?</legend>
         <p class="hint">Ha nincs, nyugodtan hagyd ki.</p>
-        <div class="options" id="markaOptions"></div>
+        <div class="options cols" id="markaOptions"></div>
       </fieldset>
 
       <fieldset class="step" data-step="utasok">
         <legend>Hányan utaztok általában?</legend>
         <div class="options">
-          <label><input type="radio" name="utasok" value="1-2">1–2 fő</label>
-          <label><input type="radio" name="utasok" value="3-5">3–5 fő</label>
-          <label><input type="radio" name="utasok" value="6-7">6–7 fő</label>
+          <label><input type="radio" name="utasok" value="1-2"><span>1–2 fő</span></label>
+          <label><input type="radio" name="utasok" value="3-5"><span>3–5 fő</span></label>
+          <label><input type="radio" name="utasok" value="6-7"><span>6–7 fő</span></label>
         </div>
       </fieldset>
 
       <fieldset class="step" data-step="ut">
         <legend>Hol jársz többet?</legend>
         <div class="options">
-          <label><input type="radio" name="ut" value="varos">Főleg város</label>
-          <label><input type="radio" name="ut" value="vegyes">Vegyesen</label>
-          <label><input type="radio" name="ut" value="hosszu">Sok hosszú út</label>
+          <label><input type="radio" name="ut" value="varos"><span>Főleg város</span></label>
+          <label><input type="radio" name="ut" value="vegyes"><span>Vegyesen</span></label>
+          <label><input type="radio" name="ut" value="hosszu"><span>Sok hosszú út</span></label>
         </div>
       </fieldset>
 
       <fieldset class="step" data-step="kategoria">
         <legend>Milyen kategória érdekel?</legend>
         <div class="options">
-          <label><input type="radio" name="kategoria" value="praktikus">Praktikus <small>pl. Škoda Octavia, VW Golf</small></label>
-          <label><input type="radio" name="kategoria" value="premium">Prémium <small>pl. Audi A4, BMW 3-as, Mercedes C</small></label>
-          <label><input type="radio" name="kategoria" value="luxus">Luxus <small>pl. Audi A8, BMW 7-es, Mercedes S</small></label>
-          <label><input type="radio" name="kategoria" value="mindegy">Mindegy</label>
+          <label><input type="radio" name="kategoria" value="praktikus"><span>Praktikus <small>pl. Škoda Octavia, VW Golf</small></span></label>
+          <label><input type="radio" name="kategoria" value="premium"><span>Prémium <small>pl. Audi A4, BMW 3-as, Mercedes C</small></span></label>
+          <label><input type="radio" name="kategoria" value="luxus"><span>Luxus <small>pl. Audi A8, BMW 7-es, Mercedes S</small></span></label>
+          <label><input type="radio" name="kategoria" value="mindegy"><span>Mindegy</span></label>
         </div>
       </fieldset>
 
       <fieldset class="step" data-step="karakter">
         <legend>Mi tetszik jobban?</legend>
         <p class="hint">A prémium autók között leginkább ebben különböznek.</p>
-        <div class="options">
-          <label><input type="radio" name="karakter" value="sportos">Sportos</label>
-          <label><input type="radio" name="karakter" value="kenyelmes">Kényelmes</label>
-          <label><input type="radio" name="karakter" value="technika">Modern technika</label>
-          <label><input type="radio" name="karakter" value="biztonsag">Biztonság</label>
+        <div class="options cols">
+          <label><input type="radio" name="karakter" value="sportos"><span>Sportos</span></label>
+          <label><input type="radio" name="karakter" value="kenyelmes"><span>Kényelmes</span></label>
+          <label><input type="radio" name="karakter" value="technika"><span>Modern technika</span></label>
+          <label><input type="radio" name="karakter" value="biztonsag"><span>Biztonság</span></label>
         </div>
       </fieldset>
 
       <fieldset class="step" data-step="kezdo">
         <legend>25 év alatti vagy kezdő sofőr vagy?</legend>
         <p class="hint">Ilyenkor drágább a biztosítás, ezért gyengébb motort keresünk.</p>
-        <div class="options">
-          <label><input type="radio" name="kezdo" value="igen">Igen</label>
-          <label><input type="radio" name="kezdo" value="nem">Nem</label>
+        <div class="options cols">
+          <label><input type="radio" name="kezdo" value="igen"><span>Igen</span></label>
+          <label><input type="radio" name="kezdo" value="nem"><span>Nem</span></label>
         </div>
       </fieldset>
 
       <div class="nav">
-        <button type="button" id="back" class="secondary">Vissza</button>
-        <button type="button" id="skip" class="secondary">Kihagyom</button>
+        <button type="button" id="back" class="quiet">Vissza</button>
+        <button type="button" id="skip" class="quiet">Kihagyom</button>
         <button type="button" id="next">Tovább</button>
       </div>
     </form>
@@ -133,21 +212,37 @@
     <!-- Találatok -->
     <section id="results" class="screen" hidden aria-live="polite"></section>
 
-    <dialog id="request">
+    <dialog id="request" aria-labelledby="requestTitle">
       <form method="dialog" id="requestForm">
         <h2 id="requestTitle"></h2>
         <p>Megkeressük külföldön a konkrét autót, ellenőrizzük az előéletét, és ajánlatot küldünk. Ez még nem vásárlás.</p>
         <label>Név <input name="nev" required autocomplete="name"></label>
         <label>E-mail <input name="email" type="email" required autocomplete="email"></label>
-        <label>Telefon <input name="telefon" type="tel" autocomplete="tel"></label>
-        <label>Megjegyzés <textarea name="megjegyzes" rows="3" placeholder="pl. szín, váltó, max. km"></textarea></label>
+        <label>Telefon <span class="hint">nem kötelező</span> <input name="telefon" type="tel" autocomplete="tel"></label>
+        <label>Megjegyzés <span class="hint">pl. szín, váltó, max. km</span> <textarea name="megjegyzes" rows="3"></textarea></label>
         <div class="actions">
-          <button value="cancel" formnovalidate class="secondary">Mégse</button>
+          <button value="cancel" formnovalidate class="quiet">Mégse</button>
           <button value="ok">Ajánlatkérés elküldése</button>
         </div>
       </form>
     </dialog>
   </main>
+
+  <footer class="foot">
+    <div class="foot-in">
+      <div>
+        <a href="./" class="brand" data-nav="home">CarSearch</a>
+        <p>Használtautó-ajánló és behozatal Nyugat-Európából.</p>
+      </div>
+      <ul>
+        <li><a href="#hogyan" data-nav>Hogyan működik</a></li>
+        <li><a href="#vegosszeg" data-nav>Végösszeg</a></li>
+        <li><a href="#autok" data-nav>Autók</a></li>
+        <li><a href="#kerdesek" data-nav>Kérdések</a></li>
+      </ul>
+      <p class="legal">Prototípus: az árak becsültek, az ajánlatkérés még nem kerül továbbításra.</p>
+    </div>
+  </footer>
 
   <script type="module" src="src/app.js"></script>
 </body>

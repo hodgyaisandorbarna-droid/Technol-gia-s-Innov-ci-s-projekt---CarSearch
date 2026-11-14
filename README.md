@@ -1,7 +1,7 @@
 # CarSearch
 
 Technológia és innováció projekt: használtautó-ajánló és külföldi beszerzés.
-A vevő megadja a keretét, válaszol 3 egyszerű kérdésre, mi ajánlunk 3–5 modellt; a kiválasztottat megkeressük külföldön és behozzuk.
+A vevő megadja a keretét, válaszol néhány egyszerű kérdésre, mi ajánlunk 3–5 modellt; a kiválasztottat megkeressük külföldön és behozzuk.
 
 A részletes terv: [docs/terv.md](docs/terv.md)
 
@@ -22,7 +22,7 @@ npm test
 ## Felépítés
 | Fájl | Szerep |
 |------|--------|
-| `index.html` | kérdőív, találatok, ajánlatkérő ablak |
+| `index.html` | nyitóoldal (keret, lépések, végösszeg, kínálat, kérdések), kérdőív, találatok, ajánlatkérő ablak |
 | `src/catalog.js` | példakatalógus (modellgenerációk, becsült árak) |
 | `src/recommend.js` | végár-képlet, szűrés, pontozás, lazítás 0 találatnál |
 | `src/app.js` | felület logikája |
