@@ -36,5 +36,41 @@ export const CREDITS = {
     "licenc": "CC BY-SA 3.0",
     "licencUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "forras": "https://commons.wikimedia.org/wiki/File:Volkswagen_up!_Black_(front).jpg"
+  },
+  "dacia-sandero-2": {
+    "szerzo": "Vauxford",
+    "licenc": "CC BY-SA 4.0",
+    "licencUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "forras": "https://commons.wikimedia.org/wiki/File:2017_Dacia_Sandero_Ambiance_SCE_facelift_1.0_Front.jpg"
+  },
+  "dacia-spring": {
+    "szerzo": "Charles from Port Chester, New York",
+    "licenc": "CC BY 2.0",
+    "licencUrl": "https://creativecommons.org/licenses/by/2.0",
+    "forras": "https://commons.wikimedia.org/wiki/File:Dacia_Spring_(2022)_(52185989187).jpg"
+  },
+  "skoda-citigo": {
+    "szerzo": "Mr.choppers",
+    "licenc": "CC BY-SA 3.0",
+    "licencUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "forras": "https://commons.wikimedia.org/wiki/File:2014_%C5%A0koda_Citigo_5-door,_front_right.jpg"
+  },
+  "toyota-corolla-12-ts": {
+    "szerzo": "Rutger van der Maar",
+    "licenc": "CC BY 2.0",
+    "licencUrl": "https://creativecommons.org/licenses/by/2.0",
+    "forras": "https://commons.wikimedia.org/wiki/File:Toyota_Corolla_Touring_Sports_Hybrid_front.jpg"
+  },
+  "toyota-yaris-3": {
+    "szerzo": "Vauxford",
+    "licenc": "CC BY-SA 4.0",
+    "licencUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "forras": "https://commons.wikimedia.org/wiki/File:2017_Toyota_Yaris_1.5_facelift_Front.jpg"
+  },
+  "vw-golf-7": {
+    "szerzo": "KarleHorn",
+    "licenc": "CC BY-SA 3.0",
+    "licencUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "forras": "https://commons.wikimedia.org/wiki/File:VW_Golf_VII_GTi_CS_Front.JPG"
   }
 };
