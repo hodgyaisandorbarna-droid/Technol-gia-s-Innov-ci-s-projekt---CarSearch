@@ -29,6 +29,7 @@
       <a href="#vegosszeg" data-nav>Végösszeg</a>
       <a href="#autok" data-nav>Autók</a>
       <a href="#kerdesek" data-nav>Kérdések</a>
+      <a href="ajanlat.html" class="keep">Ajánlatom</a>
     </nav>
   </header>
 
@@ -219,7 +220,11 @@
         <label>Név <input name="nev" required autocomplete="name"></label>
         <label>E-mail <input name="email" type="email" required autocomplete="email"></label>
         <label>Telefon <span class="hint">nem kötelező</span> <input name="telefon" type="tel" autocomplete="tel"></label>
-        <label>Megjegyzés <span class="hint">pl. szín, váltó, max. km</span> <textarea name="megjegyzes" rows="3"></textarea></label>
+        <fieldset>
+          <legend>Milyen szín jöhet szóba? <span class="hint">nem kötelező, több is választható</span></legend>
+          <div id="reqColors"></div>
+        </fieldset>
+        <label>Megjegyzés <span class="hint">pl. váltó, max. km</span> <textarea name="megjegyzes" rows="3"></textarea></label>
         <div class="actions">
           <button value="cancel" formnovalidate class="quiet">Mégse</button>
           <button value="ok">Ajánlatkérés elküldése</button>

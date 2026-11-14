@@ -1,6 +1,7 @@
 import { CATALOG } from './catalog.js';
 import { CREDITS } from './credits.js';
 import { addRequest } from './store.js';
+import { colorPicker, eur } from './chat.js';
 import { recommend, maxCarPrice, totalPrice, COSTS, KARAKTER_LABEL } from './recommend.js';
 
 const intro = document.getElementById('intro');
@@ -19,7 +20,6 @@ let lastAnswers = null;
 let selected = null;
 
 const num = n => n.toLocaleString('hu-HU', { useGrouping: 'always' });
-const eur = n => num(n) + ' €';
 const KAT_LABEL = { praktikus: 'Praktikus', premium: 'Prémium', luxus: 'Luxus' };
 const FENNTARTAS = { 1: 'alacsony', 2: 'közepes', 3: 'magas' };
 
@@ -242,7 +242,9 @@ resultsEl.addEventListener('click', e => {
 
 dialog.addEventListener('close', () => {
   if (dialog.returnValue !== 'ok' || !selected) return;
-  const contact = Object.fromEntries(new FormData(requestForm));
+  const fd = new FormData(requestForm);
+  const { szin, ...contact } = Object.fromEntries(fd);
+  contact.szinek = fd.getAll('szin');
   // Prototípus: a kérés a böngésző helyi tárolójába kerül, az admin oldal innen olvassa (lásd src/store.js).
   const req = addRequest({
     modelId: selected.model.id,
@@ -253,8 +255,10 @@ dialog.addEventListener('close', () => {
   });
   requestForm.reset();
   resultsEl.querySelector('.notice.ok')?.remove();
+  // a vevő a saját kérését azonosítóval és e-mail-címmel nyitja meg; ebben a munkamenetben már be is léptetjük
+  try { sessionStorage.setItem('carsearch.me', JSON.stringify({ id: req.id, email: contact.email })); } catch { /* nem baj */ }
   resultsEl.insertAdjacentHTML('afterbegin',
-    `<p class="notice ok" role="status">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt, és hamarosan jelentkezünk. A kérésed azonosítója: <b>${req.id}</b>.</p>`);
+    `<p class="notice ok" role="status">Köszönjük! Megkeressük a(z) ${selected.model.marka} ${selected.model.modell} modellt. A kérésed azonosítója <b>${req.id}</b> – az ajánlatot az <a href="ajanlat.html?id=${req.id}">Ajánlatom</a> oldalon találod majd.</p>`);
   window.scrollTo({ top: 0 });
 });
 
@@ -268,6 +272,8 @@ document.getElementById('creditsLink').addEventListener('click', e => {
   e.preventDefault();
   document.getElementById('credits').showModal();
 });
+
+document.getElementById('reqColors').innerHTML = colorPicker('szin');
 
 setBudget(form.budget.value);
 renderCars('');

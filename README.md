@@ -27,8 +27,10 @@ npm test
 | `src/credits.js` | a modellfotók szerzője, licence és forrása (Wikimedia Commons) |
 | `src/recommend.js` | végár-képlet, szűrés, pontozás, lazítás 0 találatnál |
 | `src/app.js` | felület logikája |
-| `admin.html`, `src/admin.js` | admin: ajánlatkérések listája, állapotok, válaszsablonok, jegyzet, előzmények |
-| `src/store.js` | az ajánlatkérések tárolása (prototípus: a böngésző helyi tárolója) |
+| `admin.html`, `src/admin.js` | admin: számlálós áttekintés, kérések listája, visszajelzés csevegőnézetben (üzenet vagy ajánlat) |
+| `ajanlat.html`, `src/ajanlat.js` | a vevő oldala: azonosítóval és e-mail-címmel nyitja meg, előre megírt válaszokkal felel (elfogad, elutasít, más színt kér) |
+| `src/chat.js` | az üzenetváltás közös megjelenítése, színválasztó |
+| `src/store.js` | kérések, üzenetek, állapotok, számlálók tárolása (prototípus: a böngésző helyi tárolója) |
 | `src/styles.css` | stílus (világos/sötét mód) |
 | `test/` | az ajánlómotor tesztjei |
 | `public/img/` | modellképek helye (WebP, Wikimedia Commons) |
@@ -36,4 +38,4 @@ npm test
 ## Állapot
 Élő oldal: https://hodgyaisandorbarna-droid.github.io/Technol-gia-s-Innov-ci-s-projekt---CarSearch/
 
-Prototípus: az ajánlatkérés a böngésző helyi tárolójába mentődik, és az `admin.html` oldalon kezelhető – de csak ugyanabban a böngészőben látszik. Éles működéshez a `src/store.js` függvényeit kell valódi háttérrendszerre cserélni, és belépés kell az adminhoz. A katalógus árai becsültek.
+Prototípus: az ajánlatkérés a böngésző helyi tárolójába mentődik, az `admin.html` oldalon kezelhető, a vevő az `ajanlat.html` oldalon látja a választ – de csak ugyanabban a böngészőben látszik. Éles működéshez a `src/store.js` függvényeit kell valódi háttérrendszerre cserélni, és belépés kell az adminhoz. A katalógus árai becsültek.

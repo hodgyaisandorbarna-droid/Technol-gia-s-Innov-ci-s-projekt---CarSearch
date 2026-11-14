@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ajánlatom – CarSearch</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body class="app">
+  <header class="top">
+    <a href="./" class="brand">CarSearch</a>
+    <nav aria-label="Navigáció"><a href="./" class="keep">Vissza az oldalra</a></nav>
+  </header>
+
+  <main id="main">
+    <form id="login" class="login stack" novalidate>
+      <h1>Ajánlatom megnyitása</h1>
+      <p>Add meg az ajánlatkérés azonosítóját és azt az e-mail-címet, amellyel kérted.</p>
+      <label>Azonosító <span class="hint">az ajánlatkérés után kaptad, pl. K-1001</span>
+        <input name="id" required autocomplete="off" autocapitalize="characters" spellcheck="false">
+      </label>
+      <label>E-mail
+        <input name="email" type="email" required autocomplete="email">
+      </label>
+      <p id="loginError" class="error" role="alert" hidden>Ezzel az azonosítóval és e-mail-címmel nem találtunk ajánlatkérést. Ellenőrizd, hogy jól írtad-e be.</p>
+      <div><button>Megnyitás</button></div>
+    </form>
+
+    <div id="mine" class="stack" hidden></div>
+  </main>
+
+  <script type="module" src="src/ajanlat.js"></script>
+</body>
+</html>

@@ -10,31 +10,33 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="src/styles.css">
 </head>
-<body class="admin">
+<body class="app">
   <header class="top">
     <a href="./" class="brand">CarSearch <span>admin</span></a>
-    <nav aria-label="Navigáció"><a href="./">Vissza az oldalra</a></nav>
+    <nav aria-label="Navigáció"><a href="./" class="keep">Vissza az oldalra</a></nav>
   </header>
 
   <main id="main">
-    <div class="adm-head">
-      <h1>Ajánlatkérések</h1>
-      <div class="filters" id="statusFilter" role="group" aria-label="Szűrés állapot szerint"></div>
+    <!-- Dashboard: számlálók és a kérések listája -->
+    <div id="dash" class="stack">
+      <h1>Áttekintés</h1>
+      <dl class="stats" id="stats"></dl>
+
+      <div class="adm-head">
+        <h2>Ajánlatkérések</h2>
+        <div class="filters" id="statusFilter" role="group" aria-label="Szűrés állapot szerint"></div>
+      </div>
+      <ul class="rows" id="reqList"></ul>
+      <div id="emptyState" class="empty" hidden>
+        <h2>Még nincs ajánlatkérés</h2>
+        <p>Amikor valaki az oldalon az „Ezt kérem” gombbal elküldi az adatait, a kérés itt jelenik meg.</p>
+        <div><button type="button" id="seed" class="quiet">Mintaadatok betöltése</button></div>
+      </div>
+      <p class="hint adm-note">Prototípus: a kérések ennek a böngészőnek a helyi tárolójában vannak; belépés és automatikus e-mail-értesítés még nincs.</p>
     </div>
 
-    <div class="adm" id="adm">
-      <section class="adm-list" aria-label="Kérések listája">
-        <ul id="reqList"></ul>
-        <div id="emptyState" class="empty" hidden>
-          <h2>Még nincs ajánlatkérés</h2>
-          <p>Amikor valaki az oldalon az „Ezt kérem” gombbal elküldi az adatait, a kérés itt jelenik meg.</p>
-          <div><button type="button" id="seed" class="quiet">Mintakérés hozzáadása</button></div>
-        </div>
-      </section>
-      <section class="adm-detail" id="detail" aria-live="polite"></section>
-    </div>
-
-    <p class="hint adm-note">Prototípus: a kérések ennek a böngészőnek a helyi tárolójában vannak, belépés és valódi e-mail-küldés még nincs.</p>
+    <!-- Visszajelzés: üzenetváltás egy kérésről -->
+    <div id="thread" class="stack" hidden></div>
   </main>
 
   <script type="module" src="src/admin.js"></script>
